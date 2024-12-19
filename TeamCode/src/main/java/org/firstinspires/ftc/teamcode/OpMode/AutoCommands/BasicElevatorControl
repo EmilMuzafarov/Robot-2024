@@ -1,0 +1,35 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+public class BasicElevatorControl extends LinearOpMode {
+
+    // Declare the motor variable
+    DcMotor elevatorMotor;
+
+    @Override
+    public void runOpMode() {
+        // Initialize the motor (assumes it's named "elevator_motor" in the configuration)
+        elevatorMotor = hardwareMap.get(DcMotor.class, "elevator_motor");
+
+        // Wait for the start button to be pressed
+        waitForStart();
+
+        // Loop to continuously check inputs during the match
+        while (opModeIsActive()) {
+            // Check for D-pad button presses on the gamepad
+            if (gamepad1.dpad_up) {
+                elevatorMotor.setPower(1); // Move up at full speed
+            } else if (gamepad1.dpad_down) {
+                elevatorMotor.setPower(-1); // Move down at full speed
+            } else {
+                elevatorMotor.setPower(0); // Stop when no button is pressed
+            }
+
+            // Optional: Add some telemetry to monitor motor status (for debugging)
+            telemetry.addData("Elevator Power", elevatorMotor.getPower());
+            telemetry.update();
+        }
+    }
+}
